@@ -1,0 +1,16 @@
+* text=auto
+*.py text
+*.md text
+*.txt text
+*.bat text
+*.ps1 text
+*.sh text eol=lf
+*.json text
+*.yml text
+*.yaml text
+*.css text
+*.js text
+*.png binary
+*.pt binary
+*.db binary
+*.gz binary

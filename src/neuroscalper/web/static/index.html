@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>CryptoHunter Neural Scalper</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark"><span></span><span></span><span></span></div>
+      <div><strong>CryptoHunter</strong><small>Neural Scalper</small></div>
+    </div>
+    <div class="runtime-badge"><i id="sidebar-status-dot"></i><div><small>Состояние</small><strong id="sidebar-status">Остановлено</strong></div></div>
+    <nav id="main-nav">
+      <button class="nav-item active" data-page="dashboard"><span>⌂</span><b>Главная</b></button>
+      <button class="nav-item" data-page="data"><span>⇄</span><b>Рынок и данные</b></button>
+      <button class="nav-item" data-page="model"><span>◈</span><b>Нейросеть</b></button>
+      <button class="nav-item" data-page="backtest"><span>↻</span><b>Бэктест</b></button>
+      <button class="nav-item" data-page="paper"><span>◇</span><b>Paper-счёт</b></button>
+      <button class="nav-item" data-page="settings"><span>⚙</span><b>Настройки</b></button>
+      <button class="nav-item" data-page="journal"><span>≡</span><b>Журнал</b></button>
+    </nav>
+    <div class="side-footer">
+      <button id="help-toggle" class="ghost-button full">?<span>Подсказки включены</span></button>
+      <div class="safety-mini"><i>✓</i><span>Реальные ордера<br><b>заблокированы</b></span></div>
+      <small>Версия 0.1.1 · локальный режим</small>
+    </div>
+  </aside>
+
+  <main class="main-area">
+    <header class="topbar">
+      <div><h1 id="page-title">Главная</h1><p id="page-subtitle">Всё необходимое для безопасного первого запуска.</p></div>
+      <div class="top-actions">
+        <div class="connection-pill"><i id="connection-dot"></i><span id="connection-label">Остановлено</span></div>
+        <button class="icon-button" id="refresh-button" title="Обновить данные">↻</button>
+      </div>
+    </header>
+
+    <section class="page active" id="page-dashboard">
+      <article class="hero-card">
+        <div class="hero-copy">
+          <div class="eyebrow">БЕЗОПАСНЫЙ СТАРТ</div>
+          <h2>Запустите нейросетевого скальпера<br>одной кнопкой</h2>
+          <p>Демо создаёт реалистичный искусственный стакан. Режим Binance читает публичный рынок, но все сделки всё равно остаются виртуальными.</p>
+          <div class="hero-actions">
+            <button class="primary-button" data-action="start-demo"><span>▶</span> Запустить демо</button>
+            <button class="secondary-button" data-action="start-market"><span>⇄</span> Данные Binance</button>
+            <button class="danger-soft-button" data-action="stop"><span>■</span> Остановить</button>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="radar"><div class="radar-ring r1"></div><div class="radar-ring r2"></div><div class="radar-ring r3"></div><div class="radar-sweep"></div><div class="radar-core">AI</div></div>
+          <div class="live-lock"><span>●</span> PAPER ONLY</div>
+        </div>
+      </article>
+
+      <div class="help-card contextual-help">
+        <span class="help-icon">?</span><div><strong>С чего начать?</strong><p>Нажмите «Запустить демо». Через несколько секунд появятся цена, стакан, режим рынка и объяснение решения. Никакие ключи биржи не нужны.</p></div>
+        <button class="help-close">×</button>
+      </div>
+
+      <div class="metric-grid five">
+        <article class="metric-card"><div class="metric-label">Цена <span class="tip" data-tip="Средняя между лучшей ценой покупки и продажи.">?</span></div><strong id="metric-price">—</strong><small id="metric-spread">Спред —</small></article>
+        <article class="metric-card"><div class="metric-label">Капитал <span class="tip" data-tip="Виртуальный баланс плюс текущий результат открытой позиции.">?</span></div><strong id="metric-equity">—</strong><small id="metric-balance">Баланс —</small></article>
+        <article class="metric-card"><div class="metric-label">Текущий PnL</div><strong id="metric-pnl">—</strong><small>после входной комиссии</small></article>
+        <article class="metric-card"><div class="metric-label">Режим рынка</div><strong id="metric-regime">WAITING</strong><small id="metric-liquidity">Ликвидность —</small></article>
+        <article class="metric-card"><div class="metric-label">Просадка</div><strong id="metric-drawdown">0.00%</strong><small id="metric-risk-state">Защита активна</small></article>
+      </div>
+
+      <div class="dashboard-grid">
+        <article class="panel chart-panel span-2">
+          <div class="panel-head"><div><h3>Цена и виртуальный капитал</h3><p>Последние события рынка</p></div><div class="legend"><span class="price-key"></span> Цена <span class="equity-key"></span> Капитал</div></div>
+          <div class="chart-wrap"><canvas id="main-chart"></canvas><div class="chart-empty" id="main-chart-empty">Запустите демо, чтобы увидеть график</div></div>
+        </article>
+
+        <article class="panel signal-panel">
+          <div class="panel-head"><div><h3>Решение системы</h3><p>Простое объяснение последнего шага</p></div><span id="signal-chip" class="signal-chip flat">ЖДЁМ</span></div>
+          <div class="confidence-ring" id="confidence-ring"><div><strong id="confidence-value">0%</strong><span>уверенность</span></div></div>
+          <div class="probability-bars">
+            <div><span>LONG</span><div><i id="prob-long"></i></div><b id="prob-long-text">0%</b></div>
+            <div><span>FLAT</span><div><i id="prob-flat"></i></div><b id="prob-flat-text">0%</b></div>
+            <div><span>SHORT</span><div><i id="prob-short"></i></div><b id="prob-short-text">0%</b></div>
+          </div>
+          <div class="decision-copy"><strong id="decision-title">Рынок ещё не анализировался</strong><p id="decision-reason">После запуска здесь появится человеческое объяснение, почему система вошла или решила не торговать.</p></div>
+          <div class="edge-row"><span>Ожидаемый результат после расходов</span><b id="net-edge">— б.п.</b></div>
+        </article>
+
+        <article class="panel orderbook-panel">
+          <div class="panel-head"><div><h3>Стакан</h3><p>12 ближайших уровней</p></div><span id="book-mid">—</span></div>
+          <div class="book-header"><span>Цена</span><span>Объём</span></div>
+          <div id="orderbook-asks" class="book-side asks"></div>
+          <div class="book-spread"><span>СПРЕД</span><b id="book-spread">—</b></div>
+          <div id="orderbook-bids" class="book-side bids"></div>
+        </article>
+
+        <article class="panel activity-panel span-2">
+          <div class="panel-head"><div><h3>Последние сигналы</h3><p>Что видела программа и чем закончилось решение</p></div><button class="text-button" data-page-link="journal">Открыть журнал →</button></div>
+          <div class="table-wrap"><table><thead><tr><th>Время</th><th>Направление</th><th>Уверенность</th><th>После расходов</th><th>Статус</th></tr></thead><tbody id="recent-signals-table"><tr><td colspan="5" class="empty-cell">Сигналов пока нет</td></tr></tbody></table></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="page" id="page-data">
+      <div class="section-intro"><div><div class="eyebrow">ИСТОЧНИК РЫНКА</div><h2>Рынок и сбор данных</h2><p>Выберите демо или подключите публичный поток Binance Futures без API-ключа.</p></div></div>
+      <div class="two-column-grid">
+        <article class="panel action-card">
+          <div class="action-icon demo">◎</div><h3>Демо-рынок</h3><p>Искусственный стакан с трендами, боковиком, пробоями и высокой волатильностью. Подходит для знакомства и проверки интерфейса.</p>
+          <ul class="check-list"><li>Работает без интернета</li><li>Не расходует место на диске</li><li>Детерминированный результат</li></ul>
+          <button class="primary-button full" data-action="start-demo">Запустить демо</button>
+        </article>
+        <article class="panel action-card">
+          <div class="action-icon market">⇄</div><h3>Публичный Binance Futures</h3><p>Программа восстанавливает локальный стакан, читает сделки и ликвидации и сохраняет данные для последующего обучения.</p>
+          <ul class="check-list"><li>Ключи биржи не требуются</li><li>Снимки стакана и признаки сохраняются</li><li>Торговля остаётся виртуальной</li></ul>
+          <button class="secondary-button full" data-action="start-market">Подключить данные</button>
+        </article>
+      </div>
+      <article class="panel status-board">
+        <div class="panel-head"><div><h3>Состояние потока</h3><p>Диагностика соединения и качества данных</p></div><span id="collector-state" class="state-tag">STOPPED</span></div>
+        <div class="status-grid">
+          <div><span>Источник</span><strong id="data-source">Остановлено</strong></div><div><span>Символ</span><strong id="data-symbol">BTCUSDT</strong></div><div><span>Сообщений</span><strong id="data-messages">0</strong></div><div><span>Задержка</span><strong id="data-latency">—</strong></div><div><span>Переподключений</span><strong id="data-reconnects">0</strong></div><div><span>Снимков обработано</span><strong id="data-snapshots">0</strong></div><div><span>Качество данных</span><strong id="data-quality">—</strong></div>
+        </div>
+      </article>
+      <article class="panel explanation-panel"><div class="explain-icon">i</div><div><h3>Что именно записывается?</h3><p><b>Стакан</b> — цены и объёмы покупателей/продавцов. <b>Сделки</b> — фактические покупки и продажи. <b>Признаки</b> — дисбаланс, микропрайс, поток объёма, волатильность и другие числа, которые понимает нейросеть.</p><p class="muted">Файлы находятся в <code>var/data/records/</code> и автоматически сжимаются по часам.</p></div></article>
+    </section>
+
+    <section class="page" id="page-model">
+      <div class="section-intro"><div><div class="eyebrow">ОБУЧЕНИЕ</div><h2>Нейросеть</h2><p>RiskAwareLOBNet анализирует последовательность состояний стакана и оценивает SHORT, FLAT, LONG, величину движения и риск.</p></div></div>
+      <div class="model-layout">
+        <article class="panel model-card">
+          <div class="model-orb"><span>AI</span></div><div class="model-info"><span class="state-tag" id="model-ready-tag">BASELINE</span><h3 id="model-name">Микроструктурный baseline</h3><p id="model-device">Устройство: CPU</p></div>
+          <div class="model-specs"><div><span>Архитектура</span><b>CNN + GRU + Attention</b></div><div><span>Вход</span><b>64 × 20 уровней × 4</b></div><div><span>Выход</span><b>3 класса + edge + volatility</b></div></div>
+        </article>
+        <article class="panel training-card">
+          <div class="panel-head"><div><h3>Обучить модель</h3><p>Для первого запуска используйте синтетические данные</p></div></div>
+          <label class="field"><span>Источник данных <i class="tip" data-tip="Синтетика проверяет весь процесс. Реальные записи полезнее для итоговой модели.">?</i></span><select id="train-source"><option value="synthetic">Синтетические данные</option><option value="recorded">Мои записанные данные</option></select></label>
+          <label class="field"><span>Количество примеров</span><input id="train-samples" type="number" min="800" max="100000" step="500" value="6000"><small>Для быстрой проверки: 2 000–6 000. Для серьёзного опыта: 30 000+.</small></label>
+          <button class="primary-button full" data-action="train">Начать обучение</button>
+          <div class="job-progress"><div class="progress-head"><span id="train-message">Обучение не запущено</span><b id="train-percent">0%</b></div><div class="progress-track"><i id="train-progress"></i></div><div id="train-details" class="progress-details"></div></div>
+        </article>
+      </div>
+      <article class="panel architecture-card">
+        <div class="panel-head"><div><h3>Как программа принимает решение</h3><p>Каждый блок решает свою понятную задачу</p></div></div>
+        <div class="architecture-flow"><div><i>1</i><b>Стакан и сделки</b><span>Сырой рынок</span></div><em>→</em><div><i>2</i><b>36 признаков</b><span>Дисбаланс и поток</span></div><em>→</em><div><i>3</i><b>Нейросеть</b><span>Вероятности и edge</span></div><em>→</em><div><i>4</i><b>7 правил</b><span>Ваши стратегии</span></div><em>→</em><div><i>5</i><b>Риск</b><span>Разрешить или запретить</span></div><em>→</em><div><i>6</i><b>Paper-брокер</b><span>Очередь и исполнение</span></div></div>
+      </article>
+    </section>
+
+    <section class="page" id="page-backtest">
+      <div class="section-intro"><div><div class="eyebrow">ПРОВЕРКА</div><h2>Честный событийный бэктест</h2><p>Не просто «цена коснулась лимита»: учитываются задержка, очередь, комиссия, спред, проскальзывание и отмена заявки.</p></div></div>
+      <div class="backtest-top">
+        <article class="panel run-card"><h3>Новый прогон</h3>
+          <label class="field"><span>Источник</span><select id="backtest-source"><option value="synthetic">Синтетический рынок</option><option value="recorded">Записанные данные</option></select></label>
+          <label class="field"><span>Количество событий</span><input id="backtest-steps" type="number" min="500" max="2000000" step="500" value="6000"><small>6 000 событий ≈ быстрый тест механики. Реальный вывод требует длинной истории.</small></label>
+          <button class="primary-button full" data-action="backtest">Запустить бэктест</button>
+          <div class="job-progress"><div class="progress-head"><span id="backtest-message">Бэктест не запущен</span><b id="backtest-percent">0%</b></div><div class="progress-track"><i id="backtest-progress"></i></div></div>
+        </article>
+        <article class="panel backtest-chart-panel"><div class="panel-head"><div><h3>Кривая капитала</h3><p>Последний завершённый прогон</p></div></div><div class="chart-wrap"><canvas id="backtest-chart"></canvas><div class="chart-empty" id="backtest-chart-empty">Результатов пока нет</div></div></article>
+      </div>
+      <div class="metric-grid six" id="backtest-metrics">
+        <article class="metric-card"><div class="metric-label">Итог</div><strong data-metric="net_profit">—</strong><small data-submetric="return_pct">Доходность —</small></article>
+        <article class="metric-card"><div class="metric-label">Сделки</div><strong data-metric="trades">—</strong><small data-submetric="win_rate_pct">Win rate —</small></article>
+        <article class="metric-card"><div class="metric-label">Profit Factor</div><strong data-metric="profit_factor">—</strong><small>Прибыль ÷ убыток</small></article>
+        <article class="metric-card"><div class="metric-label">Просадка</div><strong data-metric="max_drawdown_pct">—</strong><small>От пика капитала</small></article>
+        <article class="metric-card"><div class="metric-label">Sharpe proxy</div><strong data-metric="sharpe_proxy">—</strong><small>Только диагностика</small></article>
+        <article class="metric-card"><div class="metric-label">Fill rate</div><strong data-metric="fill_rate_pct">—</strong><small>Исполнено заявок</small></article>
+      </div>
+      <div class="help-card warning"><span class="help-icon">!</span><div><strong>Бэктест не является обещанием прибыли</strong><p>Синтетика проверяет код. Для оценки стратегии нужны реальные записи, разделение по времени, walk-forward и длительный paper-прогон.</p></div></div>
+    </section>
+
+    <section class="page" id="page-paper">
+      <div class="section-intro"><div><div class="eyebrow">ВИРТУАЛЬНАЯ ТОРГОВЛЯ</div><h2>Paper-счёт</h2><p>Те же сигналы и риск-контроль, но без отправки ордеров на биржу.</p></div><button class="danger-soft-button" data-action="reset-paper">Сбросить paper-счёт</button></div>
+      <div class="metric-grid four"><article class="metric-card"><div class="metric-label">Баланс</div><strong id="paper-balance">—</strong><small>Закрытый результат</small></article><article class="metric-card"><div class="metric-label">Капитал</div><strong id="paper-equity">—</strong><small>С учётом позиции</small></article><article class="metric-card"><div class="metric-label">Сделок</div><strong id="paper-trade-count">0</strong><small>В журнале</small></article><article class="metric-card"><div class="metric-label">Ожидающих заявок</div><strong id="paper-orders">0</strong><small>Лимитные ордера</small></article></div>
+      <div class="two-column-grid paper-grid">
+        <article class="panel position-card"><div class="panel-head"><div><h3>Открытая позиция</h3><p>Стоп, цель и плавающий результат</p></div><span id="position-tag" class="state-tag">НЕТ</span></div><div id="position-empty" class="empty-state"><div>◇</div><strong>Позиции нет</strong><p>Система откроет её только после прохождения всех фильтров.</p></div><div id="position-details" class="position-details hidden"></div></article>
+        <article class="panel risk-card"><div class="panel-head"><div><h3>Защитный контур</h3><p>Ограничения нельзя обойти нейросетью</p></div><span id="kill-tag" class="state-tag good">ACTIVE</span></div><div class="risk-gauge"><div><span>Текущая просадка</span><b id="risk-dd">0%</b></div><div class="progress-track"><i id="risk-dd-bar"></i></div></div><div class="risk-list"><div><span>Дневной PnL</span><b id="risk-daily">0</b></div><div><span>Серия убытков</span><b id="risk-losses">0</b></div><div><span>Риск на сделку</span><b id="risk-per-trade">0.25%</b></div></div><button class="secondary-button full" data-action="reset-kill">Снять аварийную блокировку</button></article>
+      </div>
+      <article class="panel"><div class="panel-head"><div><h3>Закрытые сделки</h3><p>Фактический виртуальный результат после расходов</p></div></div><div class="table-wrap"><table><thead><tr><th>Время</th><th>Монета</th><th>Сторона</th><th>Вход</th><th>Выход</th><th>PnL</th><th>Причина</th></tr></thead><tbody id="trades-table"><tr><td colspan="7" class="empty-cell">Закрытых сделок пока нет</td></tr></tbody></table></div></article>
+    </section>
+
+    <section class="page" id="page-settings">
+      <div class="section-intro"><div><div class="eyebrow">ПРОСТЫЕ НАСТРОЙКИ</div><h2>Настройки</h2><p>Опасные значения ограничиваются автоматически. Наведите на «?» рядом с параметром, чтобы увидеть объяснение.</p></div><button class="primary-button" id="save-settings">Сохранить настройки</button></div>
+      <form id="settings-form" class="settings-layout">
+        <article class="panel settings-section"><div class="settings-title"><div class="settings-icon">⇄</div><div><h3>Рынок</h3><p>Что анализировать и как быстро получать данные</p></div></div><div class="form-grid">
+          <label class="field"><span>Торговая пара <i class="tip" data-tip="Начинайте с самой ликвидной пары, например BTCUSDT.">?</i></span><input name="market.symbol" value="BTCUSDT"></label>
+          <label class="field"><span>Уровней стакана</span><select name="market.depth_levels"><option>10</option><option selected>20</option><option>50</option><option>100</option></select></label>
+          <label class="field"><span>Частота обновления</span><select name="market.update_ms"><option value="100">100 мс</option><option value="250">250 мс</option></select></label>
+          <label class="switch-field"><span><b>Записывать стакан</b><small>Для обучения на реальных данных</small></span><input type="checkbox" name="market.record_raw_events" checked><i></i></label>
+        </div></article>
+        <article class="panel settings-section"><div class="settings-title"><div class="settings-icon">◈</div><div><h3>Порог нейросети</h3><p>Когда сигнал достаточно сильный для рассмотрения</p></div></div><div class="form-grid">
+          <label class="field"><span>Минимальная уверенность <i class="tip" data-tip="Чем выше значение, тем реже и избирательнее входы.">?</i></span><input type="number" name="model.min_confidence" min="0.34" max="0.99" step="0.01"></label>
+          <label class="field"><span>Минимальный net edge, б.п. <i class="tip" data-tip="Ожидаемое движение, которое должно остаться после комиссий и исполнения.">?</i></span><input type="number" name="model.min_net_edge_bps" min="0" max="100" step="0.1"></label>
+          <label class="field"><span>Длина последовательности</span><select name="model.sequence_length"><option>32</option><option selected>64</option><option>128</option><option>256</option></select></label>
+          <label class="switch-field"><span><b>Использовать видеокарту</b><small>Если PyTorch видит CUDA</small></span><input type="checkbox" name="model.use_gpu" checked><i></i></label>
+        </div></article>
+        <article class="panel settings-section"><div class="settings-title"><div class="settings-icon">◇</div><div><h3>Исполнение</h3><p>Модель очереди, задержек и торговых расходов</p></div></div><div class="form-grid">
+          <label class="field"><span>Тип заявки</span><select name="execution.preferred_order_type"><option value="adaptive">Автоматически</option><option value="post_only">Только maker</option><option value="limit">Лимитная</option><option value="market">Рыночная</option></select></label>
+          <label class="field"><span>Maker-комиссия, б.п.</span><input type="number" name="execution.maker_fee_bps" min="0" step="0.1"></label>
+          <label class="field"><span>Taker-комиссия, б.п.</span><input type="number" name="execution.taker_fee_bps" min="0" step="0.1"></label>
+          <label class="field"><span>Задержка, мс <i class="tip" data-tip="Время от решения программы до появления заявки на бирже.">?</i></span><input type="number" name="execution.assumed_latency_ms" min="0" max="5000"></label>
+          <label class="field"><span>Макс. спред, б.п.</span><input type="number" name="execution.max_spread_bps" min="0.1" step="0.1"></label>
+          <label class="field"><span>Отмена лимита через, мс</span><input type="number" name="execution.cancel_after_ms" min="100" step="100"></label>
+        </div></article>
+        <article class="panel settings-section"><div class="settings-title"><div class="settings-icon">✓</div><div><h3>Риск</h3><p>Жёсткие ограничения, независимые от модели</p></div></div><div class="form-grid">
+          <label class="field"><span>Начальный баланс, USDT</span><input type="number" name="risk.initial_balance" min="10" step="100"></label>
+          <label class="field"><span>Риск на сделку, % <i class="tip" data-tip="Сколько капитала допускается потерять при срабатывании стопа.">?</i></span><input type="number" name="risk.risk_per_trade_pct" min="0.01" max="5" step="0.01"></label>
+          <label class="field"><span>Макс. размер позиции, %</span><input type="number" name="risk.max_position_notional_pct" min="0.1" max="100" step="0.1"></label>
+          <label class="field"><span>Дневной стоп, %</span><input type="number" name="risk.max_daily_loss_pct" min="0.1" max="50" step="0.1"></label>
+          <label class="field"><span>Макс. просадка от пика, %</span><input type="number" name="risk.max_drawdown_pct" min="0.1" max="90" step="0.1"></label>
+          <label class="field"><span>Стоп, б.п.</span><input type="number" name="risk.stop_loss_bps" min="1" step="1"></label>
+          <label class="field"><span>Тейк-профит, б.п.</span><input type="number" name="risk.take_profit_bps" min="1" step="1"></label>
+          <label class="field"><span>Пауза после сделки, сек.</span><input type="number" name="risk.cooldown_seconds" min="0" step="1"></label>
+        </div></article>
+        <article class="panel settings-section full-width"><div class="settings-title"><div class="settings-icon">⌁</div><div><h3>Стратегии-помощники</h3><p>Правила из ваших проектов дополняют нейросеть и объясняют решение</p></div></div><div id="strategy-switches" class="strategy-grid"></div></article>
+      </form>
+    </section>
+
+    <section class="page" id="page-journal">
+      <div class="section-intro"><div><div class="eyebrow">ПРОЗРАЧНОСТЬ</div><h2>Журнал</h2><p>Здесь видно не только сделки, но и причины отказа. Это помогает находить реальные ошибки, а не гадать.</p></div><button class="secondary-button" id="journal-refresh">Обновить</button></div>
+      <div class="journal-tabs"><button class="active" data-journal="logs">Системные события</button><button data-journal="decisions">Решения</button><button data-journal="signals">Сигналы</button></div>
+      <article class="panel journal-panel"><div id="journal-content" class="journal-content"><div class="empty-state"><div>≡</div><strong>Журнал пуст</strong><p>После запуска здесь появятся подробные события.</p></div></div></article>
+    </section>
+  </main>
+</div>
+<div id="toast-container"></div>
+<div id="confirm-modal" class="modal hidden"><div class="modal-card"><div class="modal-icon">!</div><h3 id="confirm-title">Подтвердите действие</h3><p id="confirm-text"></p><div class="modal-actions"><button class="secondary-button" id="confirm-cancel">Отмена</button><button class="danger-button" id="confirm-ok">Продолжить</button></div></div></div>
+<script src="/static/app.js"></script>
+</body>
+</html>
