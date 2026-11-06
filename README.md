@@ -238,7 +238,7 @@ node --check src/neuroscalper/web/static/app.js
 
 ## Права и происхождение архитектуры
 
-Код этой сборки написан как clean-room интеграция. Использованы общие архитектурные идеи из исследований DeepLOB, EarnHFT, MacroHFT, DeepScalper, JaxMARL-HFT, hftbacktest и TorchTrade, а также требования и инженерные решения из проектов CryptoHunter, AI Trader, Drops, Liquidations, ImPulse и других проектов владельца.
+Код этой сборки написан как clean-room интеграция. Использованы общие архитектурные идеи из исследований DeepLOB, EarnHFT, MacroHFT, DeepScalper, JaxMARL-HFT, hftbacktest и TorchTrade, а также требования и инженерные решения из проектов CryptoHunter, AI Trader, Drops, Liquidations, ImPulse и других проектов.
 
 Подробности находятся в [`NOTICE.md`](NOTICE.md) и [`docs/THIRD_PARTY_IDEAS_RU.md`](docs/THIRD_PARTY_IDEAS_RU.md).
 Условия частного использования: [`LICENSE`](LICENSE). История версий: [`CHANGELOG.md`](CHANGELOG.md).
